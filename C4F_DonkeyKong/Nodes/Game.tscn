@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3 uid="uid://qtha8urpf6mt"]
+
+[ext_resource type="PackedScene" uid="uid://c0fkl1queko8n" path="res://C4F_DonkeyKong/Nodes/Platform.tscn" id="1_65ab6"]
+[ext_resource type="Script" path="res://C4F_DonkeyKong/Scripts/JumpMan.gd" id="2_woasv"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_o6ulw"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qruey"]
+
+[node name="Node" type="Node"]
+
+[node name="3D" type="Node" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.82153, 4.05289)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="3D"]
+transform = Transform3D(0.258819, 0, 0.965926, 0.482963, 0.866025, -0.12941, -0.836516, 0.5, 0.224144, 0, 0, 0)
+mesh = SubResource("BoxMesh_o6ulw")
+skeleton = NodePath("../..")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="3D"]
+
+[node name="2D" type="Node" parent="."]
+
+[node name="Wall_South" parent="2D" instance=ExtResource("1_65ab6")]
+position = Vector2(579, 648)
+scale = Vector2(60.64, 1)
+
+[node name="Wall_East" parent="2D" instance=ExtResource("1_65ab6")]
+position = Vector2(1151, 335)
+rotation = 1.5708
+scale = Vector2(35, 1)
+
+[node name="Wall_West" parent="2D" instance=ExtResource("1_65ab6")]
+position = Vector2(0, 335)
+rotation = 1.5708
+scale = Vector2(35, 1)
+
+[node name="Platform" parent="2D" instance=ExtResource("1_65ab6")]
+position = Vector2(507, 515)
+rotation = 0.0710106
+scale = Vector2(50.12, 1)
+
+[node name="Platform2" parent="2D" instance=ExtResource("1_65ab6")]
+position = Vector2(659, 345)
+rotation = -0.0420048
+scale = Vector2(50.12, 1)
+
+[node name="Platform3" parent="2D" instance=ExtResource("1_65ab6")]
+position = Vector2(497, 167)
+rotation = 0.0889737
+scale = Vector2(50.12, 1)
+
+[node name="JumpMan" type="CharacterBody2D" parent="."]
+position = Vector2(92, 575)
+script = ExtResource("2_woasv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="JumpMan"]
+shape = SubResource("CapsuleShape2D_qruey")
+
+[node name="ColorRect" type="ColorRect" parent="JumpMan"]
+offset_left = -10.0
+offset_top = -15.0
+offset_right = 10.0
+offset_bottom = 15.0
+color = Color(0, 1, 0, 1)
