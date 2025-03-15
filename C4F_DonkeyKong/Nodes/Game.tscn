@@ -1,13 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://qtha8urpf6mt"]
+[gd_scene load_steps=9 format=3 uid="uid://qtha8urpf6mt"]
 
 [ext_resource type="PackedScene" uid="uid://c0fkl1queko8n" path="res://C4F_DonkeyKong/Nodes/Platform.tscn" id="1_65ab6"]
 [ext_resource type="Script" path="res://C4F_DonkeyKong/Scripts/JumpMan.gd" id="2_woasv"]
+[ext_resource type="Script" path="res://C4F_DonkeyKong/Scripts/BarrelSpawner.gd" id="3_xhsay"]
+[ext_resource type="PackedScene" uid="uid://ms0rou5b03mm" path="res://C4F_DonkeyKong/Nodes/Barrel.tscn" id="4_38dpb"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_o6ulw"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_na21t"]
+size = Vector2(100, 700)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wubgi"]
+size = Vector2(20, 147.915)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qruey"]
 
-[node name="Node" type="Node"]
+[node name="Main" type="Node"]
 
 [node name="3D" type="Node" parent="."]
 
@@ -37,6 +45,31 @@ position = Vector2(0, 335)
 rotation = 1.5708
 scale = Vector2(35, 1)
 
+[node name="ForceField_West" type="Area2D" parent="2D"]
+position = Vector2(49, 319)
+gravity_space_override = 1
+gravity_point_center = Vector2(1, 0)
+gravity_direction = Vector2(1, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="2D/ForceField_West"]
+shape = SubResource("RectangleShape2D_na21t")
+
+[node name="ForceField_East" type="Area2D" parent="2D"]
+position = Vector2(1100, 319)
+gravity_space_override = 1
+gravity_point_center = Vector2(-1, 0)
+gravity_direction = Vector2(-1, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="2D/ForceField_East"]
+shape = SubResource("RectangleShape2D_na21t")
+
+[node name="BarrelDestroyer" type="Area2D" parent="2D" groups=["BarrelDestroyer"]]
+position = Vector2(108, 578)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="2D/BarrelDestroyer"]
+position = Vector2(0, -10)
+shape = SubResource("RectangleShape2D_wubgi")
+
 [node name="Platform" parent="2D" instance=ExtResource("1_65ab6")]
 position = Vector2(507, 515)
 rotation = 0.0710106
@@ -52,16 +85,21 @@ position = Vector2(497, 167)
 rotation = 0.0889737
 scale = Vector2(50.12, 1)
 
-[node name="JumpMan" type="CharacterBody2D" parent="."]
+[node name="JumpMan" type="CharacterBody2D" parent="2D"]
 position = Vector2(92, 575)
 script = ExtResource("2_woasv")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="JumpMan"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="2D/JumpMan"]
 shape = SubResource("CapsuleShape2D_qruey")
 
-[node name="ColorRect" type="ColorRect" parent="JumpMan"]
+[node name="ColorRect" type="ColorRect" parent="2D/JumpMan"]
 offset_left = -10.0
 offset_top = -15.0
 offset_right = 10.0
 offset_bottom = 15.0
 color = Color(0, 1, 0, 1)
+
+[node name="BarrelSpawner" type="Node2D" parent="2D"]
+position = Vector2(54, 38)
+script = ExtResource("3_xhsay")
+barrel = ExtResource("4_38dpb")

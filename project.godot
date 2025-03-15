@@ -15,6 +15,10 @@ run/main_scene="res://C4F_DonkeyKong/Nodes/Game.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
+[global_group]
+
+BarrelDestroyer=""
+
 [input]
 
 Right={
