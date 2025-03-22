@@ -15,9 +15,14 @@ run/main_scene="res://C4F_DonkeyKong/Nodes/Game.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Game="*res://C4F_DonkeyKong/Scripts/Game.gd"
+
 [global_group]
 
 BarrelDestroyer=""
+Player=""
 
 [input]
 

@@ -1,9 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://qtha8urpf6mt"]
+[gd_scene load_steps=12 format=3 uid="uid://qtha8urpf6mt"]
 
 [ext_resource type="PackedScene" uid="uid://c0fkl1queko8n" path="res://C4F_DonkeyKong/Nodes/Platform.tscn" id="1_65ab6"]
+[ext_resource type="Script" path="res://C4F_DonkeyKong/Scripts/Game.gd" id="1_gui7e"]
 [ext_resource type="Script" path="res://C4F_DonkeyKong/Scripts/JumpMan.gd" id="2_woasv"]
 [ext_resource type="Script" path="res://C4F_DonkeyKong/Scripts/BarrelSpawner.gd" id="3_xhsay"]
 [ext_resource type="PackedScene" uid="uid://ms0rou5b03mm" path="res://C4F_DonkeyKong/Nodes/Barrel.tscn" id="4_38dpb"]
+[ext_resource type="Script" path="res://C4F_DonkeyKong/Scripts/LivesDisplay.gd" id="6_sdbvw"]
+[ext_resource type="Script" path="res://C4F_DonkeyKong/Scripts/BannerDisplay.gd" id="7_qprq5"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_o6ulw"]
 
@@ -16,6 +19,8 @@ size = Vector2(20, 147.915)
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qruey"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_gui7e")
+lives = 1
 
 [node name="3D" type="Node" parent="."]
 
@@ -63,8 +68,10 @@ gravity_direction = Vector2(-1, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="2D/ForceField_East"]
 shape = SubResource("RectangleShape2D_na21t")
 
-[node name="BarrelDestroyer" type="Area2D" parent="2D" groups=["BarrelDestroyer"]]
+[node name="BarrelDestroyer" type="StaticBody2D" parent="2D" groups=["BarrelDestroyer"]]
 position = Vector2(108, 578)
+disable_mode = 1
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="2D/BarrelDestroyer"]
 position = Vector2(0, -10)
@@ -85,7 +92,7 @@ position = Vector2(497, 167)
 rotation = 0.0889737
 scale = Vector2(50.12, 1)
 
-[node name="JumpMan" type="CharacterBody2D" parent="2D"]
+[node name="JumpMan" type="CharacterBody2D" parent="2D" groups=["Player"]]
 position = Vector2(92, 575)
 script = ExtResource("2_woasv")
 
@@ -103,3 +110,84 @@ color = Color(0, 1, 0, 1)
 position = Vector2(54, 38)
 script = ExtResource("3_xhsay")
 barrel = ExtResource("4_38dpb")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="2D"]
+
+[node name="LivesDisplay" type="Label" parent="2D/CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.95
+anchor_right = 0.95
+offset_left = -126.0
+offset_bottom = 45.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 32
+text = "LIVES : x"
+script = ExtResource("6_sdbvw")
+
+[node name="GameOver" type="Control" parent="2D/CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_qprq5")
+
+[node name="Label" type="Label" parent="2D/CanvasLayer/GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -367.0
+offset_top = -350.5
+offset_right = 367.0
+offset_bottom = 350.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 256
+text = "GAME
+OVER"
+
+[node name="YouWin" type="Control" parent="2D/CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_qprq5")
+
+[node name="Label" type="Label" parent="2D/CanvasLayer/YouWin"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -367.0
+offset_top = -350.5
+offset_right = 367.0
+offset_bottom = 350.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 256
+text = "YOU
+WIN"
+
+[connection signal="gameOver" from="." to="2D/CanvasLayer/GameOver" method="Display"]

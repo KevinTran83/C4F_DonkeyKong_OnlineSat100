@@ -11,7 +11,10 @@ radius = 20.0
 
 [node name="Barrel" type="RigidBody2D"]
 position = Vector2(57, 52)
+collision_layer = 3
 physics_material_override = SubResource("PhysicsMaterial_reoo3")
+contact_monitor = true
+max_contacts_reported = 3
 script = ExtResource("1_2s1mt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -23,4 +26,5 @@ offset_top = -20.0
 offset_right = 20.0
 offset_bottom = 20.0
 
+[connection signal="body_entered" from="." to="." method="hitPlayer"]
 [connection signal="body_entered" from="." to="." method="selfDestruct"]

@@ -18,6 +18,11 @@ func _process(delta: float) -> void:
         apply_torque       (-constRotForce)
 
 func selfDestruct(other : Node):
-    if other.is_in_group("NodeDestroyer") :
-        print("OW")
+    if other.is_in_group("BarrelDestroyer") :
         queue_free()
+        
+func hitPlayer(other : Node):
+    if other.is_in_group("Player"):
+        get_tree().root.get_child(0).ChangeLives(-1)
+        queue_free()
+        get_tree().reload_current_scene()
